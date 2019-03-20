@@ -1,0 +1,124 @@
+Q1.
+
+# For each 6 month coupon C and face value F at maturity, construct function PV for calculation it¡¯s present value, i.e. it¡¯s price.
+> PV=function(C, F, interests, n=length(interests)) {
++ int=c(interests)
++ PVC=sum(C*exp(-int*0.5*(1:n)))
++ PVF=F*exp(-int[n]*0.5*n)
++ return (PVC+PVF)
++ }
+
+# To test the function, assuming ¡°a¡± is a bond with $100 face value, $1 coupon at the middle and the end of the year, with interest rate y(0.5)=10% & y(1)=10%.
+> a=PV(1,100,c(0.1,0.1))
+> a
+[1] 92.33981
+# The price of ¡°a¡± bond is $92.34.
+
+
+
+
+
+Q3.
+
+#a. read dataset into R 
+> setwd( "D:/Macquarie/2019S1/ACST890")
+> dataset =read.csv("singapore.economy.csv",header=T)
+> dim(dataset)
+[1] 336  10
+
+#b. exclude NA records 
+> dataset=na.omit(dataset)
+> dim(dataset)
+[1] 110  10
+
+#c. plot Singapore GDP against time 
+> attach(dataset)
+> plot(time, gdp, xlab="Time", ylab="GDP%", main="Singapore GDP growth")
+ 
+
+#d. mean and standard deviatione 
+> tapply(gdp, period, mean)
+       1        2         3 
+1.702953  1.571337  1.045280 
+> tapply(gdp, period, sd)
+       1        2        3 
+1.685216  1.787153  2.408231
+> stat.table=rbind(tapply(gdp, period, mean),tapply(gdp,period,sd))
+> stat.table
+            1        2         3
+[1,]  1.702953  1.571337  1.045280
+[2,]  1.685216  1.787153  2.408231
+
+#e. pairs 
+> pairs(~gdp+exp+epg+crd+hpr+gdpus+oil+bci,dataset)
+ 
+
+#f. simple linear regression 
+> lm.fit=lm(gdp~exp)
+> summary(lm.fit)
+Call:
+lm(formula = gdp ~ exp)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-4.9294   -1.0044  0.2445    0.8869   5.6055 
+
+Coefficients:
+            Estimate  Std. Error   t value   Pr(>|t|)    
+(Intercept)    1.19832    0.16529   7.250  6.60e-11 ***
+exp          0.19076    0.02887   6.608  1.52e-09 ***
+---
+Signif. codes:  0 ¡®***¡¯ 0.001 ¡®**¡¯ 0.01 ¡®*¡¯ 0.05 ¡®.¡¯ 0.1 ¡® ¡¯ 1
+
+Residual standard error: 1.693 on 108 degrees of freedom
+Multiple R-squared:  0.2879,    Adjusted R-squared:  0.2813 
+F-statistic: 43.66 on 1 and 108 DF,  p-value: 1.524e-09
+
+Comments:
+From the results showed above, the relationship of Response gdp on predictor exp can be presented as: gdp= 1.20+0.19*exp
+The result of t-statistic shows the coefficients are well estimated; and the small p-value of F-statistic shows this model fits the data quite well.
+
+#g. multiple regression
+> lm.fit2=lm(gdp~exp+epg+hpr+oil+gdpus+crd)
+> summary(lm.fit2)
+
+Call:
+lm(formula = gdp ~ exp + epg + hpr + oil + gdpus + crd)
+
+Residuals:
+    Min      1Q  Median      3Q     Max 
+-5.1425   -0.8646  0.0995    0.9493   5.2931 
+
+Coefficients:
+             Estimate  Std. Error   t value   Pr(>|t|)    
+(Intercept)    1.287222   0.245125   5.251  8.17e-07 ***
+exp          0.156420   0.031059   5.036  2.03e-06 ***
+epg          3.964425   1.224407   3.238  0.00162 ** 
+hpr         -5.474249   2.094579   -2.614  0.01030 *  
+oil          0.190507   1.794301   0.106  0.91565    
+gdpus       -0.046563   0.300998  -0.155  0.87736    
+crd         -0.008538   0.016211   -0.527  0.59955    
+---
+Signif. codes:  0 ¡®***¡¯ 0.001 ¡®**¡¯ 0.01 ¡®*¡¯ 0.05 ¡®.¡¯ 0.1 ¡® ¡¯ 1
+
+Residual standard error: 1.628 on 103 degrees of freedom
+Multiple R-squared:  0.372,     Adjusted R-squared:  0.3354 
+F-statistic: 10.17 on 6 and 103 DF,  p-value: 8.144e-09
+
+Comments:
+From the results showed above, exp, epg, hpr would be better predictor for the model; whereas oil, gdpus and crd are less related to gdp.
+
+#h. quantile
+> state =rep("normal state", nrow(dataset))
+> state[quantile(gdp)<0.05]="crisis state"
+> state=as.factor(state)
+> dataset=data.frame(dataset,state)
+> dim(dataset)
+[1] 110  12
+> dataset1=subset(dataset,time<2008)
+> attach(dataset1)
+> dim(dataset1)
+[1] 72 12
+> summary(lm(state~log(bci),data=dataset1))
+
+
