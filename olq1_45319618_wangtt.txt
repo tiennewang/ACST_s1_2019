@@ -1,0 +1,111 @@
+Q1 
+(a)
+
+ubuntu@ip-172-31-26-4:~$ curl https://www.staff.hs-mittweida.de/~wuenschi/data/media/compbiolbook/chapter-10-shell-programming--triplet-stop.sh
+
+ubuntu@ip-172-31-26-4:~$ curl https://www.staff.hs-mittweida.de/~wuenschi/data/media/compbiolbook/chapter-10-shell-programming--triplet-stop.sh > triplet-stop.sh
+
+ubuntu@ip-172-31-26-4:~$ ls
+triplet-stop.sh
+
+ubuntu@ip-172-31-26-4:~$ chmod u+x triplet-stop.sh
+
+
+(b)
+
+ubuntu@ip-172-31-26-4:~$ vi triplet-stop.sh
+
+#!/bin/bash
+# save as triplet-stop.sh
+# splits a sequence into triplets
+x=0
+while [ -n "${1:$x:3}" ]; do
+  seq=$seq${1:$x:3}" "
+  x=$(expr $x + 3)
+  if [ ${1:$x:3} == taa ] && [ $x -ge 9 ]; then
+    break
+  fi
+done
+echo "$seq"
+
+ubuntu@ip-172-31-26-4:~$ ./triplet-stop.sh aaabbbccctaa
+aaa bbb ccc
+
+ubuntu@ip-172-31-26-4:~$ ./triplet-stop.sh aaabbbtaacccdddtaaeee
+aaa bbb taa ccc ddd
+
+
+
+Q2
+(a)
+
+WangTT@WANGTT-T420S MINGW64 ~/temptt
+$ scp -i 45319618.pem tutes.txt ubuntu@ec2-13-54-246-11.ap-southeast-2.compute.amazonaws.com:
+tutes.txt   
+$ ssh -i 45319618.pem ubuntu@ec2-13-54-246-11.ap-southeast-2.compute.amazonaws.com
+ubuntu@ip-172-31-26-4:~$ ls
+
+(b)
+
+ubuntu@ip-172-31-26-4:~$ sort tutes.txt | sort -u
+
+
+
+Q3
+(a)
+
+ubuntu@ip-172-31-26-4:~$ vi ttestt.txt
+111 111
+1 1 1
+11 11
+
+ubuntu@ip-172-31-26-4:~$ egrep '^[^ ]+ [^ ]+ [^ ]+$' ttestt.txt
+
+
+(b)
+
+ubuntu@ip-172-31-26-4:~$ vi ttestt.txt
+111 111
+1 1 1
+11 11
+00 -123 999
+
+ubuntu@ip-172-31-26-4:~$ egrep -e '-[0-9]+' ttestt.txt
+
+(c)
+
+ubuntu@ip-172-31-26-4:~$ vi ttestt.txt
+111 111
+1 1 1
+11 11
+00 -123 999
+a0.1 11.23 999
+
+ubuntu@ip-172-31-26-4:~$ egrep -e ' [0-9]+\.[0-9]+ ' ttestt.txt
+
+(d)
+
+ubuntu@ip-172-31-26-4:~$ vi ttestt.txt
+111 111 hydrogenase
+1 1 1 hydrogenase dehydrogenase
+11 11 hydrogenase
+00 -123 999 dehydrogenase
+a0.1 11.23 999
+
+ubuntu@ip-172-31-26-4:~$ egrep ' hydrogenase' ttestt.txt | egrep -v ' dehydrogenase'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
