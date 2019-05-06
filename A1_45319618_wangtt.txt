@@ -1,0 +1,108 @@
+
+Q1.
+
+WangTT@WANGTT-T420S MINGW64 ~/temptt
+$ scp -i 45319618.pem twain.txt ubuntu@ec2-13-54-246-11.ap-southeast-2.compute.amazonaws.com:
+
+ubuntu@ip-172-31-26-4:~$ python3
+
+>>> f = open ('twain.txt', 'r')   
+>>> data = f.read()
+>>> data.replace('Huck','HucK')
+
+?
+
+Q2.
+
+a)
+python3 userargument.py python:
+
+b)
+python3 userargument.py @!&^%
+
+c)
+python3 userargument.py 1234
+
+d)
+python3 userargument.py Bob
+
+e)
+userargument.py Bob
+
+f)
+python3 userargument.py Alice Bob
+
+
+
+Q3.
+
+>>> if int ( input ('give an integer: ') )%400==0 :
+¡­ 	print ('it is a leap year')
+... elif ( int ( input ('give an integer: ') )%4==0) and ( int ( input ('give an integer: 
+	') )%100!=0)   
+¡­ 	print ('it is a leap year')
+... else:
+...	print('it is not a leap year')
+
+
+give an integer:  2019
+it is not a leap year
+
+give an integer:  2020
+it is a leap year
+
+?
+
+Q4.
+
+# [Q4test.py]
+import random
+a = int ( input ('give an integer a: ') )
+b = int ( input ('give an integer b: ') )
+x = random.randint(a,b)
+print (x)
+
+
+give an integer a:  12
+give an integer b:  35
+26
+
+?
+
+Q5.
+
+# [Q5test.py]
+m = int ( input ('give an integer as month: ') )
+d = int ( input ('give an integer as day: ') )
+if m>3 and m<6:
+print ('True')
+elif m=3 and d>20:
+print ('True')
+elif m=6 and d<20
+print ('True')
+else:
+print ('False¡¯)
+
+
+give an integer as month:  3
+give an integer as day:  22
+True
+
+?
+
+Q6.
+
+# [Q6test.py]
+import math
+r = float ( input( 'give an interest rate: ') )
+t = float ( input ( 'years: ') )
+P = float ( input ('principal: ') )
+F = P * math.exp ( r*t )
+print F
+
+
+give an interest rate:  0.05
+years:  3
+principal:  100
+116.1834242728283
+
